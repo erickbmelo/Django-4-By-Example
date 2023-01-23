@@ -3,6 +3,11 @@ from django.utils import timezone
 
 # Create your models here.
 class Post(models.Model):
+
+    class Status(models.TextChoices):
+        RASCUNHO = 'RSC', 'Rascunho'
+        PUBLICADO = 'PUB', 'Publicado'
+
     titulo = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
     corpo = models.TextField()
@@ -11,6 +16,7 @@ class Post(models.Model):
     # ^^^ By using auto_now_add, the date will be saved automatically when CREATING an object
     modificado = models.DateTimeField(auto_now=True)
     # ^^^ By using auto_now, the date will be updated automatically when SAVING an object an object.
+    status = models.CharField(max_length=3, choices=Status.choices, default=Status.RASCUNHO)
 
     class Meta:
         ordering = ['-publicado']
