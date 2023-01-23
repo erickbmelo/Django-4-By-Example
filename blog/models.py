@@ -13,5 +13,9 @@ class Post(models.Model):
     # ^^^ By using auto_now, the date will be updated automatically when SAVING an object 
 an object.
 
+    class Meta:
+        """Criando uma ordenação padrão reversa por data de publicação"""
+        ordenacao = ['-publicado']
+
     def __str__(self):
         return self.titulo
