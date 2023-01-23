@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Post(models.Model):
@@ -10,6 +11,7 @@ class Post(models.Model):
 
     titulo = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250)
+    autor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_posts')
     corpo = models.TextField()
     publicado = models.DateTimeField(default=timezone.now)
     criado = models.DateField(auto_now_add=True)
