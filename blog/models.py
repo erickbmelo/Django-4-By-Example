@@ -3,6 +3,10 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 # Create your models here.
+class PublicadosManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(status=Post.Status.PUBLICADO)
+
 class Post(models.Model):
 
     class Status(models.TextChoices):
@@ -19,6 +23,9 @@ class Post(models.Model):
     modificado = models.DateTimeField(auto_now=True)
     # ^^^ By using auto_now, the date will be updated automatically when SAVING an object an object.
     status = models.CharField(max_length=3, choices=Status.choices, default=Status.RASCUNHO)
+    objetos = models.Manager()
+    publicacoes = PublicadosManager()
+
 
     class Meta:
         ordering = ['-publicado']
