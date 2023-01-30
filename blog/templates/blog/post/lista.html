@@ -13,4 +13,5 @@
 
 {{ post.corpo|truncatewords:30|linebreaks }}
 {% endfor %}
+{% include "paginacao.html" with page=posts %}
 {% endblock %}
