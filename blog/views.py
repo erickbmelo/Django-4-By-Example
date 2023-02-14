@@ -2,6 +2,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import ListView
 
+from .forms import EmailPostForm
 from .models import Post
 
 
@@ -30,10 +31,25 @@ def detalhe_do_post(request, year, month, day, post):
     return render(request, 'blog/post/detalhe.html', {'post': post})
 
 class PostListView(ListView):
- """
- Alternative post list view
- """
- queryset = Post.publicacoes.all()
- context_object_name = 'posts'
- paginate_by = 3
- template_name = 'blog/post/lista.html'
+    """
+    Alternative post list view
+    """
+    queryset = Post.publicacoes.all()
+    context_object_name = 'posts'
+    paginate_by = 3
+    template_name = 'blog/post/lista.html'
+
+
+def compartilha_post(request, post_id):
+    # Retrieve post by id
+    post = get_object_or_404(Post, id=post_id, status=Post.Status.PUBLICADO)
+    if request.method == 'POST':
+        # Form was submitted
+        form = EmailPostForm(request.POST)
+        if form.is_valid():
+            # Form fields passed validation
+            cd = form.cleaned_data
+            # ... send email
+    else:
+        form = EmailPostForm()
+    return render(request, 'blog/post/share.html', {'post': post, 'form': form})
