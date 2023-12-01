@@ -10,11 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+dotenv_path = os.path.join(os.path.dirname(__file__), '../.env')
+load_dotenv(dotenv_path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -78,11 +82,11 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'OPTIONS':{
-            'options': '-c search_path=django_book_blog' # esquema 'django_book_blog'
+            'options': '-c search_path=blog' # esquema 'blog'
         },
-        'HOST': 'localhost',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
-        'NAME': 'erick',
+        'NAME': 'django4byex',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
     }
@@ -130,3 +134,12 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Email server configuration
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'erick.teste.django@gmail.com'
+EMAIL_HOST_PASSWORD = os.getenv('MAIL_PASS')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
